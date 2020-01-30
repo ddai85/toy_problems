@@ -25,7 +25,7 @@ var longestConsecutive = function(nums) {
         longest = curr;
       }
     } else {
-      curr = 0;
+      curr = 1;
     }
   }
 
