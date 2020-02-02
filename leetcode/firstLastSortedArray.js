@@ -12,7 +12,6 @@ var searchRange = function(nums, target) {
       return null;
     }
     if (nums[midpoint] === target) {
-      console.log(nums, midpoint, offset);
       return midpoint + offset;
     } else if (target < nums[midpoint]) {
       const lowerNums = nums.slice(0, midpoint);
@@ -26,7 +25,6 @@ var searchRange = function(nums, target) {
 
   let targetIndex = binarySearch(nums, target, 0);
   if (targetIndex === null) return positions;
-  console.log(targetIndex);
   // find lower bound
   for (let i = targetIndex; i >= 0; i--) {
     if (nums[i] === target) {
