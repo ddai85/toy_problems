@@ -3,35 +3,41 @@
  * @return {number}
  */
 var numDecodings = function(s) {
-  if (s.length === 0) {
-    return 0;
-  }
+  const memo = {};
 
-  if (s[0] === "0") {
-    return null;
-  }
-
-  if (s.length === 1 && s !== "0") {
-    return 1;
-  }
-
-  let nextTwo = s[0] + s[1];
-
-  if (parseInt(nextTwo) > 26 || s[1] === "0") {
-    let remainder = numDecodings(s.substring(2));
-    if (remainder === null) {
-      return 0;
-    } else {
-      return 1 + remainder;
+  const recursiveFunc = function(s, index) {
+    if (memo[index]) {
+      return memo[index];
     }
-  } else {
-    let remainderFirst = numDecodings(s.substring(1));
-    let remainderSecond = numDecodings(s.substring(2));
 
-    let decodeFirst = remainderFirst === null ? 0 : 1 + remainderFirst;
-    let decodeSecond = remainderSecond === null ? 0 : 2 + remainderSecond;
-    return Math.max(decodeFirst, decodeSecond);
-  }
+    if (index === s.length) {
+      memo[index] = 1;
+      return 1;
+    }
+
+    let ways = 0;
+
+    let oneDigit = parseInt(s[index]);
+    if (0 < oneDigit && oneDigit < 10) {
+      ways += recursiveFunc(s, index + 1);
+    }
+
+    let twoDigit = parseInt(s[index] + s[index + 1]);
+    if (index + 2 <= s.length && 10 <= twoDigit && twoDigit <= 26) {
+      ways += recursiveFunc(s, index + 2);
+    }
+
+    memo[index] = ways;
+
+    return ways;
+  };
+
+  return recursiveFunc(s, 0);
 };
 
-console.log(numDecodings("101"));
+console.log(numDecodings("226"));
+console.log(
+  numDecodings(
+    "9371597631128776948387197132267188677349946742344217846154932859125134924241649584251978418763151253"
+  )
+);
